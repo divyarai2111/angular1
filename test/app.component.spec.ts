@@ -1,4 +1,4 @@
-import { TestBed, async, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
+import { TestBed, ComponentFixture, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -91,7 +91,7 @@ describe('AppComponent', () => {
   let textArea: any;
 
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         AppComponent,
@@ -146,7 +146,7 @@ describe('AppComponent', () => {
     notesService = fixture.debugElement.injector.get(NotesService);
   });
 
-  it('should create the app component', async(() => {
+  it('should create the app component', waitForAsync(() => {
     const app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
   }));
