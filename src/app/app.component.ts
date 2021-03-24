@@ -1,3 +1,4 @@
+import { ElementSchemaRegistry } from '@angular/compiler';
 import { Component, OnChanges, OnInit } from '@angular/core';
 import { Note } from './note';
 import { NotesService } from './notes.service';
@@ -9,8 +10,10 @@ import { NotesService } from './notes.service';
 })
 
 export class AppComponent implements OnInit {
-  errMessage: string = "";
+  errMessage: string;
   notes: Note = new Note();
+  noteList: Array<Note>;
+
   constructor(private noteService: NotesService) {
 
   }
@@ -30,21 +33,29 @@ export class AppComponent implements OnInit {
 
 
   //function to add note
-  addNote() {
-    
+  addNotes() {
 
-    if (this.notes.title == '' || this.notes.text == '') {
-      this.errMessage = "Title and Text both are required fields";
+
+    if (this.notes.title== null || this.notes.text== null) {
+      this.errMessage = 'Title and Text both are required fields';
       return;
     }
-    
+
 
 
     this.noteService.addNote(this.notes).subscribe((response) => {
       // alert("Note Saved in JSON Format")
-      this.getNotes()
-    }, (err) => {
-      this.errMessage ="Http failure response for http://localhost:3000/notes: 404 Not Found"
+      if (response) {
+        this.noteList.push(this.notes)
+        this.getNotes()
+
+      }
+      else {
+        this.errMessage = "cannot add this notes"
+      }
+
+    }, error => {
+      this.errMessage = 'Http failure response for http://localhost:3000/notes: 404 Not Found'
       return;
     })
 
@@ -53,20 +64,24 @@ export class AppComponent implements OnInit {
   }
 
 
-  noteList: Array<Note> = []
-  ngOnInit(): void {
+
+  ngOnInit() {
     this.getNotes()
-    
+
   }
 
 
 
-    getNotes() {
+  getNotes() {
     this.noteService.getNotes().subscribe((response) => {
-      this.noteList = response
-    }, (err) => {
-      console.log(err)
-      this.errMessage = "Http failure response for http://localhost:3000/notes: 404 Not Found"
+      // console.log(response.reverse())
+      if (response)
+        this.noteList = response.reverse()
+      else
+        this.errMessage = "Not able to retrieve notes"
+    }, error => {
+      console.log(error)
+      this.errMessage = 'Http failure response for http://localhost:3000/notes: 404 Not Found'
       return;
     })
   }

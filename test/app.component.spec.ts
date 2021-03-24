@@ -50,7 +50,8 @@ const testConfig = {
     {
       title: 'Call Ravi',
       text: 'Track the new submissions'
-    }],
+    }
+    ],
     negative: []
   },
   addNotes: {
@@ -268,8 +269,9 @@ describe('AppComponent', () => {
     doneButton = fixture.debugElement.nativeElement.querySelector('button');
     inputBox = fixture.debugElement.nativeElement.querySelector('input');
     textArea = fixture.debugElement.nativeElement.querySelector('textarea');
-    spyGetNotes = spyOn(notesService, 'getNotes').and.returnValue(Observable.of(positiveResponse));
     spyTakeNotes = spyOn(notesService, 'addNote').and.returnValue(Observable.of(addNotesPositiveResponse));
+    spyGetNotes = spyOn(notesService, 'getNotes').and.returnValue(Observable.of(positiveResponse));
+  
     fixture.detectChanges();
     tick();
     if (inputBox !== null && textArea !== null && doneButton !== null) {

@@ -9,15 +9,15 @@ export class NotesService {
 
   }
 
-  getNotes(): Observable<any> {
+  getNotes(): Observable<Array<Note>> {
 
-    return this.httpClient.get('http://localhost:3000/notes')
+    return this.httpClient.get<Array<Note>>('http://localhost:3000/notes')
   
 
   }
 
   addNote(note: Note): Observable<any> {
-    return this.httpClient.post('http://localhost:3000/notes',note)
+    return this.httpClient.post<Note>('http://localhost:3000/notes',note)
 
 
   }
